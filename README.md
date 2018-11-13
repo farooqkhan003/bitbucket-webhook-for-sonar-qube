@@ -9,7 +9,7 @@ The values you need to pass while creating build are as follows
 - -Dsonarqube.project.token
 - -Dpath.to.project.root
 
-run the following command to create build:
+Run the following command to create build:
 ```
 mvn clean verify  -DsskipTests sonar:sonar --batch-mode --errors -Dsonar.bitbucket.repoSlug= -Dsonar.bitbucket.accountName= -Dsonar.host.url= -Dsonar.login= -Dsonar.analysis.mode=issues -Dsonar.bitbucket.oauthClientKey= -Dsonar.bitbucket.oauthClientSecret=
 ```

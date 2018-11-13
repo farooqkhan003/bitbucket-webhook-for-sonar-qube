@@ -1,8 +1,10 @@
 package com.farooq.service;
 
+import com.farooq.gateway.JenkinsGateway;
 import com.farooq.model.BitbucketModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,9 @@ import java.io.File;
 @Slf4j
 @Service
 public class BitbucketWebhookService {
+
+    @Autowired
+    private JenkinsGateway jenkinsGateway;
 
     @Value("${path.to.project.root}")
     private String pathToProjectRoot;
@@ -59,19 +64,33 @@ public class BitbucketWebhookService {
                             "-Dsonar.bitbucket.branchName=%s -Dsonar.host.url=%s -Dsonar.login=%s " +
                             "-Dsonar.analysis.mode=issues -Dsonar.bitbucket.oauthClientKey=%s " +
                             "-Dsonar.bitbucket.oauthClientSecret=%s",
-                    skipTests, repoSlug, bitbucketAccountUsername, bitbucketModel.getPullrequest().getSource().getBranch().getName(),
+                    skipTests, repoSlug, bitbucketAccountUsername,
+                    bitbucketModel.getPullrequest().getSource().getBranch().getName(),
                     sonarQubeServerUrl, sonarQubeProjectToken, bitbucketAuthKey, bitbucketAuthSecret);
 
 
             log.info("Running command {}", command);
-            //Process p=Runtime.getRuntime().exec("cmd.exe /c mvn install:install-file -Dfile=C:\\Users\\Desktop\\Desktop\\sqljdbc4-4.0.jar -Dpackaging=jar -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc4 -Dversion=4.0");
+
             Process process = Runtime.getRuntime().exec("cmd.exe /c mvn clean", null, new File(pathToProjectRoot));
 
         } catch (Exception ex) {
-            log.error("Error while running command");
+            log.error("Error while running command.");
             ex.printStackTrace();
 
         }
 
+    }
+
+    public void triggerJenkinsJobWithParameters(String bitBucketModelString){
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            BitbucketModel bitbucketModel = objectMapper.readValue(bitBucketModelString, BitbucketModel.class);
+
+            jenkinsGateway.triggerParameterizedJenkinsJob(bitbucketModel.getPullrequest().getSource().getBranch().getName());
+        } catch (Exception ex) {
+            log.error("Error while triggering jenkins call.");
+            ex.printStackTrace();
+        }
     }
 }

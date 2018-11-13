@@ -21,4 +21,9 @@ public class BitbucketWebhookController {
     public void runSonarAnalysis(@RequestBody String bitBucketModel){
         bitbucketWebhookService.runSonarAnalysisCommand(bitBucketModel);
     }
+
+    @PostMapping(value = "webhook/jenkins")
+    public void runSonarAnalysisViaJenkins(@RequestBody String bitBucketModel){
+        bitbucketWebhookService.triggerJenkinsJobWithParameters(bitBucketModel);
+    }
 }
