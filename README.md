@@ -8,6 +8,12 @@ The values you need to pass while creating build are as follows
 - -Dbitbucket.auth.secret
 - -Dsonarqube.project.token
 - -Dpath.to.project.root
+- -Djenkins.server.url
+- -Djenkins.server.crumb
+- -Djenkins.server.auth.token
+- -Djenkins.server.jenkins.username
+
+Parameter name in jenkins should be `source_branch_name`
 
 run the following command to create build:
 ```
