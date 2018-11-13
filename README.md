@@ -11,5 +11,11 @@ The values you need to pass while creating build are as follows
 
 run the following command to create build:
 ```
-mvn clean verify  -DsskipTests sonar:sonar --batch-mode --errors -Dsonar.bitbucket.repoSlug= -Dsonar.bitbucket.accountName= -Dsonar.host.url= -Dsonar.login= -Dsonar.analysis.mode=issues -Dsonar.bitbucket.oauthClientKey= -Dsonar.bitbucket.oauthClientSecret=
+mvn clean verify sonar:sonar --batch-mode --errors 
+-Dsonar.analysis.mode=issues
+-Dsonar.bitbucket.repoSlug= 
+-Dsonar.bitbucket.accountName= 
+-Dsonar.host.url= -Dsonar.login= 
+-Dsonar.bitbucket.oauthClientKey= 
+-Dsonar.bitbucket.oauthClientSecret=
 ```
