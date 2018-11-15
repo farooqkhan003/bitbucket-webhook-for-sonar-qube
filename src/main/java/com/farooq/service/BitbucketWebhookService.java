@@ -42,7 +42,7 @@ public class BitbucketWebhookService {
     @Value("${bitbucket.auth.secret:}")
     private String bitbucketAuthSecret;
 
-    @Value("${skip.tests:}")
+    @Value("${skip.tests:false}")
     public void setSkipTests(boolean shouldSkipTests) {
         if (shouldSkipTests) {
             this.skipTests = " -DskipTests";
