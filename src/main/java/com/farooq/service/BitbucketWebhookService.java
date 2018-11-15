@@ -20,29 +20,29 @@ public class BitbucketWebhookService {
     @Autowired
     private JenkinsGateway jenkinsGateway;
 
-    @Value("${path.to.project.root}")
+    @Value("${path.to.project.root:}")
     private String pathToProjectRoot;
     private String skipTests;
 
-    @Value("${sonarqube.server.url}")
+    @Value("${sonarqube.server.url:}")
     private String sonarQubeServerUrl;
 
-    @Value("${sonarqube.project.token}")
+    @Value("${sonarqube.project.token:}")
     private String sonarQubeProjectToken;
 
-    @Value("${bitbucket.repo.slug}")
+    @Value("${bitbucket.repo.slug:}")
     private String repoSlug;
 
-    @Value("${bitbucket.account.username}")
+    @Value("${bitbucket.account.username:}")
     private String bitbucketAccountUsername;
 
-    @Value("${bitbucket.auth.key}")
+    @Value("${bitbucket.auth.key:}")
     private String bitbucketAuthKey;
 
-    @Value("${bitbucket.auth.secret}")
+    @Value("${bitbucket.auth.secret:}")
     private String bitbucketAuthSecret;
 
-    @Value("${skip.tests}")
+    @Value("${skip.tests:}")
     public void setSkipTests(boolean shouldSkipTests) {
         if (shouldSkipTests) {
             this.skipTests = " -DskipTests";

@@ -21,16 +21,16 @@ public class JenkinsGateway {
 
     private RestTemplate restTemplate = new RestTemplate();
 
-    @Value("${jenkins.server.url}")
+    @Value("${jenkins.server.url:}")
     private String jenkinsServerUrl;
 
-    @Value(("${jenkins.server.jenkins.username}"))
+    @Value(("${jenkins.server.jenkins.username:}"))
     private String jenkinsUsername;
 
-    @Value("${jenkins.server.auth.token}")
+    @Value("${jenkins.server.auth.token:}")
     private String jenkinsAuthToken;
 
-    @Value("${jenkins.server.crumb}")
+    @Value("${jenkins.server.crumb:}")
     private String jenkinsCrumb;
 
     public void triggerParameterizedJenkinsJob(String branch) throws Exception {
