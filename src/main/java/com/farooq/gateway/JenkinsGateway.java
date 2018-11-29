@@ -45,7 +45,7 @@ public class JenkinsGateway {
         map.add("Jenkins-Crumb", jenkinsCrumb);
 
 
-        String url = String.format("http://%s/job/%s/%s", jenkinsServerUrl, jobName,"buildWithParameters");
+        String url = String.format("%s/job/%s/%s", jenkinsServerUrl, jobName,"buildWithParameters");
 
         log.info("Sending post request to {}", jenkinsServerUrl);
 
