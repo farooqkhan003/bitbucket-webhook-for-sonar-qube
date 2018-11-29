@@ -81,15 +81,16 @@ public class BitbucketWebhookService {
 
     }
 
-    public void triggerJenkinsJobWithParameters(String bitBucketModelString){
+    public void triggerJenkinsJobWithParameters(String bitBucketModelString, String jobName){
+        log.debug("Bitbucket request: {}", bitBucketModelString);
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
             BitbucketModel bitbucketModel = objectMapper.readValue(bitBucketModelString, BitbucketModel.class);
 
-            jenkinsGateway.triggerParameterizedJenkinsJob(bitbucketModel.getPullrequest().getSource().getBranch().getName());
+            jenkinsGateway.triggerParameterizedJenkinsJob(bitbucketModel.getPullrequest().getSource().getBranch().getName(), jobName);
         } catch (Exception ex) {
-            log.error("Error while triggering jenkins call.");
+            log.error("Error while triggering jenkins call for {}", bitBucketModelString);
             ex.printStackTrace();
         }
     }

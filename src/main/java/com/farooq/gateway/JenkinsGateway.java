@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -33,22 +34,23 @@ public class JenkinsGateway {
     @Value("${jenkins.server.crumb:}")
     private String jenkinsCrumb;
 
-    public void triggerParameterizedJenkinsJob(String branch) throws Exception {
+    public void triggerParameterizedJenkinsJob(String branch, String jobName) throws Exception {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Jenkins-Crumb", jenkinsCrumb);
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.setBasicAuth(jenkinsUsername, jenkinsAuthToken);
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("Jenkins-Crumb", jenkinsCrumb);
 
 
-        String url = String.format("http://%s/%s", jenkinsServerUrl, "buildWithParameters");
+        String url = String.format("http://%s/job/%s/%s", jenkinsServerUrl, jobName,"buildWithParameters");
 
         log.info("Sending post request to {}", jenkinsServerUrl);
 
-        Map<String, String> params = new HashMap<>();
-        params.put("source_branch_name", branch);
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("source_branch_name", branch);
 
         HttpEntity request = new HttpEntity<>(params, headers);
 
